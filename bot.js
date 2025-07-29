@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 require('dotenv').config();
-
 const { Client, GatewayIntentBits } = require('discord.js');
 
 const client = new Client({
@@ -13,10 +12,6 @@ const client = new Client({
   ]
 });
 
-
-
-
-
 // Servir arquivos estáticos da pasta /public
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -25,27 +20,31 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'fvck.html'));
 });
 
-// API dos membros
-app.get('/api/members', async (req, res) => {
-  try {
-    const guild = await client.guilds.fetch(process.env.GUILD_ID);
-    await guild.members.fetch(); // Carrega todos os membros
+// Aguarde o bot estar pronto
+client.once('ready', () => {
+  console.log(`Bot conectado como ${client.user.tag}`);
 
-    const total = guild.memberCount;
-    const online = guild.members.cache.filter(m => m.presence?.status === 'online').size;
+  // ✅ Agora é seguro criar a rota da API
+  app.get('/api/members', async (req, res) => {
+    try {
+      const guild = await client.guilds.fetch(process.env.GUILD_ID);
+      await guild.members.fetch();
 
-    res.json({ total, online });
-  } catch (err) {
-    console.error("Erro na API:", err);
-    res.status(500).json({ error: 'Erro ao buscar membros.' });
-  }
-});
+      const total = guild.memberCount;
+      const online = guild.members.cache.filter(m => m.presence?.status === 'online').size;
 
+      res.json({ total, online });
+    } catch (err) {
+      console.error("Erro na API:", err);
+      res.status(500).json({ error: 'Erro ao buscar membros.' });
+    }
+  });
 
-// Inicia o servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  // ✅ Só inicia o servidor depois que o bot estiver pronto
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  });
 });
 
 // Login do bot
