@@ -13,6 +13,10 @@ const client = new Client({
   ]
 });
 
+
+
+
+
 // Servir arquivos estáticos da pasta /public
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -25,7 +29,7 @@ app.get('/', (req, res) => {
 app.get('/api/members', async (req, res) => {
   try {
     const guild = await client.guilds.fetch(process.env.GUILD_ID);
-    await guild.members.fetch();
+    await guild.members.fetch(); // Carrega todos os membros
 
     const total = guild.memberCount;
     const online = guild.members.cache.filter(m => m.presence?.status === 'online').size;
@@ -33,9 +37,10 @@ app.get('/api/members', async (req, res) => {
     res.json({ total, online });
   } catch (err) {
     console.error("Erro na API:", err);
-    res.status(500).json({ error: "Erro ao buscar membros" });
+    res.status(500).json({ error: 'Erro ao buscar membros.' });
   }
 });
+
 
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;
