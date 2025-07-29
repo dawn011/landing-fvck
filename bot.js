@@ -1,49 +1,47 @@
-require('dotenv').config(); 
-
 const express = require('express');
-const path = require('path');
-const { Client, GatewayIntentBits } = require('discord.js');
-const cors = require('cors');
-
 const app = express();
-app.use(cors());
+const path = require('path');
+require('dotenv').config();
 
-
-app.use(express.static(path.join(__dirname)));
-
-app.get('/fvck', (req, res) => {
-  res.sendFile(path.join(__dirname, 'fvck.html'));
-});
-
+const { Client, GatewayIntentBits } = require('discord.js');
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildPresences
+  ]
 });
 
+// Servir arquivos estáticos da pasta /public
+app.use(express.static(path.join(__dirname, 'public')));
 
-client.login(process.env.DISCORD_TOKEN);
-
-
-client.once('ready', () => {
-  console.log(`Bot conectado como ${client.user.tag}`);
+// Rota principal que serve o HTML
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'fvck.html'));
 });
 
+// API dos membros
 app.get('/api/members', async (req, res) => {
   try {
-    const guild = await client.guilds.fetch('1355654827882844230');
-    const members = await guild.members.fetch();
+    const guild = await client.guilds.fetch(process.env.GUILD_ID);
+    await guild.members.fetch();
 
-    const total = members.size;
-    const online = members.filter(m => m.presence && m.presence.status !== 'offline').size;
+    const total = guild.memberCount;
+    const online = guild.members.cache.filter(m => m.presence?.status === 'online').size;
 
     res.json({ total, online });
   } catch (err) {
-    console.error("Erro ao buscar membros:", err);
-    res.status(500).json({ total: 0, online: 0 });
+    console.error("Erro na API:", err);
+    res.status(500).json({ error: "Erro ao buscar membros" });
   }
 });
 
-
-app.listen(3000, () => {
-  console.log('Servidor rodando em http://localhost:3000/fvck');
+// Inicia o servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
+// Login do bot
+client.login(process.env.DISCORD_TOKEN);

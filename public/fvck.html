@@ -21,7 +21,7 @@
 
   <div class="card">
     <div class="card-banner">
-      <img class="avatar" src="https://media.discordapp.net/attachments/1376005215362220124/1399205704723730503/85D71D01-3C7C-4758-8679-3EB41A9EBD71.gif?ex=6888275b&is=6886d5db&hm=5b16184359c6188f570fc0392668c67a9416663eb68b7e098e4a9453b4cf9724&=" alt="Avatar do servidor">
+      <img class="avatar" src="https://media.discordapp.net/attachments/1376005215362220124/1399205704723730503/85D71D01-3C7C-4758-8679-3EB41A9EBD71.gif" alt="Avatar do servidor">
     </div>
     <div class="card-body">
       <div class="title">/fvck 💜</div>
@@ -45,7 +45,9 @@
   <script>
     async function atualizarMembros() {
       try {
-        const res = await fetch('http://localhost:3000/api/members');
+        const res = await fetch('/api/members');
+
+
         const data = await res.json();
 
         const onlineEl = document.getElementById("online-count");
