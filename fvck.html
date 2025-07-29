@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>/fvck - Entre no servidor</title>
+  <style>
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #1a001f, #000000);
+      background-attachment: fixed;
+      color: white;
+      overflow: hidden;
+    }
+
+    .glow {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: #b600f4;
+      filter: blur(120px);
+      opacity: 0.25;
+      top: -80px;
+      left: -60px;
+      z-index: -1;
+    }
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 4px #b600f477, 0 0 8px #b600f455;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 6px #ff00cc55, 0 0 10px #ff00cc44;
+    transform: scale(1.03);
+  }
+  100% {
+    box-shadow: 0 0 4px #b600f477, 0 0 8px #b600f455;
+    transform: scale(1);
+  }
+}
+
+@keyframes textNeonPulse {
+  0% {
+    text-shadow: 0 0 4px #ff00cc, 0 0 8px #ff00cc;
+    color: #ffb0f9;
+  }
+  50% {
+    text-shadow: 0 0 8px #ff99ff, 0 0 16px #ff00cc;
+    color: #ffe6fb;
+  }
+  100% {
+    text-shadow: 0 0 4px #ff00cc, 0 0 8px #ff00cc;
+    color: #ffb0f9;
+  }
+}
+
+
+
+    .card {
+      width: 380px;
+      border-radius: 20px;
+      background: rgba(30, 30, 30, 0.95);
+      box-shadow: 0 0 30px #b600f4aa;
+      overflow: hidden;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card-banner {
+      width: 100%;
+      height: 180px;
+      background: url('./1470813ab1f4094027bc3b5b712770d1.png') center center / cover no-repeat;
+      position: relative;
+    }
+
+    .avatar {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 3px solid #111;
+      z-index: 10;
+    }
+
+    .card-body {
+      padding: 50px 20px 20px 20px;
+    }
+
+    .title {
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #ffb0f9;
+    }
+
+    .subtitle {
+      color: #bbb;
+      margin-top: 6px;
+      font-size: 0.95em;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 6px;
+    }
+
+    .tag {
+      background: #7b2cbf33;
+      border: 1px solid #7b2cbf;
+      color: #d3a4ff;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8em;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, #ff00cc, #3333ff);
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 1em;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 15px #a84eea88;
+    }
+
+    .cta-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #d48cffdd;
+    }
+
+    .footer {
+      margin-top: 10px;
+      font-size: 0.85em;
+      color: #888;
+    }
+
+    @keyframes fadePulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.4; }
+    100% { opacity: 1; }
+    }
+
+    .updated {
+      animation: fadePulse 0.8s ease-in-out;
+    }
+
+    .tag-oficial {
+  margin-top: -50px; /* Subir o card */
+  margin-bottom: 50px;
+  background-color: #1a001f;
+  border: 1px solid #b600f4;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 0 15px #b600f4aa;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.tag-header {
+  display: flex;
+  align-items: center;
+}
+
+.tag-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #b600f4;
+  margin-right: 15px;
+}
+
+.tag-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-title {
+  font-weight: bold;
+  font-size: 1.05em;
+  color: #ffb0f9;
+  animation: textNeonPulse 2s infinite ease-in-out;
+}
+
+
+.tag-subtitle {
+  font-size: 0.85em;
+  color: #ccc;
+}
+
+.tag-oficial {
+  margin-top: -50px;
+  margin-bottom: 50px;
+  background-color: #1a001f;
+  border: 1px solid #b600f4;
+  border-radius: 12px;
+  padding: 14px 20px;
+  box-shadow: 0 0 20px #b600f4aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 360px;
+  text-align: left;
+}
+
+.tag-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tag-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #b600f4;
+  background-color: #25002f;
+  padding: 5px;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+
+.tag-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-title {
+  font-weight: bold;
+  font-size: 1.05em;
+  color: #ffb0f9;
+}
+
+.tag-subtitle {
+  font-size: 0.85em;
+  color: #bbb;
+  margin-top: 2px;
+}
+
+
+
+
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <div class="tag-oficial">
+  <div class="tag-header">
+    <img src="./e0fb315519bcb35d53e4ac4fb5b81b8c.png" alt="Fogo FVCK" class="tag-icon" />
+    <div class="tag-info">
+      <div class="tag-title">/FVCK TAG</div>
+      <div class="tag-subtitle"></div>
+    </div>
+  </div>
+</div>
+
+  <div class="tag-header">
+    
+    <div class="tag-info">
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="card">
+    <div class="card-banner">
+      <img class="avatar" src="https://media.discordapp.net/attachments/1376005215362220124/1399205704723730503/85D71D01-3C7C-4758-8679-3EB41A9EBD71.gif?ex=6888275b&is=6886d5db&hm=5b16184359c6188f570fc0392668c67a9416663eb68b7e098e4a9453b4cf9724&=" alt="Avatar do servidor">
+    </div>
+    <div class="card-body">
+      
+      <div class="title">/fvck 💜</div>
+      <div class="subtitle" id="online-count">🟢 Carregando membros...</div>
+      <div class="subtitle" id="total-members">👥 Carregando total...</div>
+
+
+
+      <div class="tags">
+        <div class="tag">🔥 GTA</div>
+        <div class="tag">🧱 Minecraft</div>
+        <div class="tag">🎮 FiveM</div>
+        <div class="tag">📦 Mods</div>
+        <div class="tag">🇧🇷 BR</div>
+        <div class="tag">😈 TAGS</div>
+      </div>
+    </div>
+  </div>
+
+  <a class="cta-button" href="https://discord.gg/fvck" target="_blank">Entrar no Discord</a>
+
+  <div class="footer">Feito com 💜 por /dawn</div>
+
+
+</body>
+<script>
+  async function atualizarMembros() {
+  try {
+    const res = await fetch('http://localhost:3000/api/members');
+    const data = await res.json();
+
+    const onlineEl = document.getElementById("online-count");
+    const totalEl = document.getElementById("total-members");
+
+    // Atualiza o conteúdo
+    onlineEl.textContent = `🟢 ${data.online} online`;
+    totalEl.textContent = `👥 Total de membros: ${data.total}`;
+
+    // Adiciona classe de animação
+    onlineEl.classList.add("updated");
+    totalEl.classList.add("updated");
+
+    // Remove depois de 1 segundo para permitir reaplicação depois
+    setTimeout(() => {
+      onlineEl.classList.remove("updated");
+      totalEl.classList.remove("updated");
+    }, 1000);
+
+  } catch (err) {
+    console.error("Erro ao buscar API:", err);
+    document.getElementById("online-count").textContent = "🟢 Online indisponível";
+    document.getElementById("total-members").textContent = "👥 Total indisponível";
+  }
+}
+
+atualizarMembros();
+setInterval(atualizarMembros, 1000);
+
+</script>
+
+
+
+</html>

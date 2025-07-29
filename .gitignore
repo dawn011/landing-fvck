@@ -1,0 +1,3 @@
+# Ignorar o token e dependências
+.env
+node_modules/
