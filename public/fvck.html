@@ -3,29 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>/fvck - Entre no servidor</title>
+  <title>Servidor fvck</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="glow"></div>
+  <div id="tsparticles"></div>
 
-  <div class="tag-oficial">
-    <div class="tag-header">
-      <img src="./e0fb315519bcb35d53e4ac4fb5b81b8c.png" alt="Fogo FVCK" class="tag-icon" />
-      <div class="tag-info">
-        <div class="tag-title">/FVCK TAG</div>
-        <div class="tag-subtitle"></div>
-      </div>
-    </div>
-  </div>
+  <div class="glow"></div>
+  
 
   <div class="card">
     <div class="card-banner">
       <img class="avatar" src="./85D71D01-3C7C-4758-8679-3EB41A9EBD71.gif" alt="Avatar do servidor">
-
     </div>
     <div class="card-body">
-      <div class="title">/fvck 💜</div>
+      <div class="title">
+        <span class="badge-tag">
+          <img src="./e0fb315519bcb35d53e4ac4fb5b81b8c.png" alt="Tag" class="badge-icon">
+          fvck
+        </span>
+      </div>
       <div class="subtitle" id="online-count">🟢 Carregando membros...</div>
       <div class="subtitle" id="total-members">👥 Carregando total...</div>
       <div class="tags">
@@ -47,10 +44,7 @@
     async function atualizarMembros() {
       try {
         const res = await fetch('/api/members');
-
-
         const data = await res.json();
-
         const onlineEl = document.getElementById("online-count");
         const totalEl = document.getElementById("total-members");
 
@@ -75,5 +69,51 @@
     atualizarMembros();
     setInterval(atualizarMembros, 1000);
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+<script>
+  tsParticles.load("tsparticles", {
+    fullScreen: { enable: true, zIndex: -1 },
+    background: {
+      color: "#0a0012"
+    },
+    particles: {
+      number: {
+        value: 80,
+        density: { enable: true, area: 800 }
+      },
+      color: {
+        value: ["#9f00ff", "#ff00ff", "#ffffff"]
+      },
+      shape: { type: "circle" },
+      opacity: {
+        value: 0.1,
+        random: true
+      },
+      size: {
+        value: { min: 1, max: 3 },
+        random: true
+      },
+      move: {
+        enable: true,
+        speed: 0.4,
+        direction: "none",
+        outMode: "bounce"
+      }
+    },
+    interactivity: {
+      events: {
+        onHover: { enable: true, mode: "repulse" },
+        onClick: { enable: true, mode: "push" }
+      },
+      modes: {
+        repulse: { distance: 50 },
+        push: { quantity: 2 }
+      }
+    },
+    detectRetina: true
+  });
+</script>
+
 </body>
 </html>
